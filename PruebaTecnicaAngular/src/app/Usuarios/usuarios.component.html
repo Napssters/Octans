@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="card" style="margin: 2em;">
+        <div class="card-header">
+            <h3>Parametros de Busqueda</h3>
+            <button class="btn btn-primary">Consultar</button>
+        </div>
+        <div class="card-body">
+            <form [formGroup] = "FormBusquedaUsuario">
+                <div class="form-group">
+                    <label for="busquedaNombre">Nombre</label>
+                    <input id="busquedaNombre" formControlName="nombre" type="text" class="form-control" placeholder="Ingrese Nombre">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <button (click)="openAddModal()" class="btn btn-primary spacing" style="margin: 1em;">Crear</button>
+        <app-list (emitEliminar)="eliminarUsuario($event)" (emitUsuario)="editarUsuario($event)" [usuarios]="Usuarios" [rols]="Roles"></app-list>
+        <ng-template #ModalCrear let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Crear Usuario</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "FormCrearUsuario">
+                    <div class="form-group">
+                        <label for="campoNombre">Nombre</label>
+                        <input id="campoNombre" formControlName="nombre" type="text" class="form-control" placeholder="Ingrese Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="campoRol">Rol</label>
+                        <select formControlName="id_ROL" id="campoRol" class="form-select">
+                            <option *ngFor="let rol of Roles" [ngValue]="rol.id_ROL">
+                                {{ rol.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Activo</span>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" formControlName="activo" id="Si" value="Si">
+                            <label class="form-check-label" for="Si">Si</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" formControlName="activo" id="No" value="No">
+                            <label class="form-check-label" for="No">No</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="model-footer">
+                <button (click)="modal.dismiss()" class="btn btn-danger">Cancelar</button>
+                <button (click)="crearUsuario()" class="btn btn-success" [disabled]="FormCrearUsuario.invalid">Guardar</button>
+            </div>
+        </ng-template>
+
+        <ng-template #ModalEditar let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Editar Usuario</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup] = "FormEditarUsuario">
+                    <div class="form-group">
+                        <label for="campoNombre">Nombre</label>
+                        <input id="campoNombre" formControlName="nombre" type="text" class="form-control" placeholder="Ingrese Nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="campoRol">Rol</label>
+                        <select formControlName="id_ROL" id="campoRol" class="form-select">
+                            <option *ngFor="let rol of Roles" [ngValue]="rol.id_ROL">
+                                {{ rol.nombre }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>Activo</span>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" formControlName="activo" id="Si" value="Si">
+                                <label class="form-check-label" for="Si">Si</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" formControlName="activo" id="No" value="No">
+                                <label class="form-check-label" for="No">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="model-footer">
+                <button (click)="modal.dismiss()" class="btn btn-danger">Cancelar</button>
+                <button (click)="editUser()" class="btn btn-success" [disabled]="FormEditarUsuario.invalid">Editar</button>
+            </div>
+        </ng-template>
+        <ng-template #ModalBuscar let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title">Busqueda Usuarios</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table tale-hover">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Rol</th>
+                            <th>Activo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let usuario of Usuarios">
+                            <td>{{ usuario.id_USUARIO }}</td>
+                            <td>{{ usuario.nombre }}</td>
+                            <td>{{ usuario.id_ROL) }}</td>
+                            <td>{{ usuario.activo }}</td>
+                            <td>
+                                <button class="btn btn-warning">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="model-footer">
+                <button (click)="modal.dismiss()" class="btn btn-danger">Aceptar</button>
+            </div>
+        </ng-template>
+    </div>
+</div>
